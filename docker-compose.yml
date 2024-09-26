@@ -1,0 +1,33 @@
+
+version: '3.8'
+
+services:
+  book_catalog:
+    build:
+      context: ./book_catalog  # Path to the book_catalog directory
+    ports:
+      - "5001:8000"  # Map host port 5001 to container port 8000
+    environment:
+      DATABASE_URL: "postgresql://week08_idrq_user:K0TF4FhqQWPcYbb3YrdnvGoqU7p74RpW@dpg-crifrqdumphs73cjnl7g-a.oregon-postgres.render.com/week08_idrq"
+    depends_on:
+      - postgres
+
+  inventory_management:
+    build:
+      context: ./inventory_management  # Path to the inventory_management directory
+    ports:
+      - "5002:8001"  # Map host port 5002 to container port 8001
+    environment:
+      DATABASE_URL: "postgresql://week08_idrq_user:K0TF4FhqQWPcYbb3YrdnvGoqU7p74RpW@dpg-crifrqdumphs73cjnl7g-a.oregon-postgres.render.com/week08_idrq"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: render/postgres:latest
+    environment:
+      POSTGRES_DB: <database>
+      POSTGRES_USER: <username>
+      POSTGRES_PASSWORD: <password>
+    ports:
+      - "5432:5432"  # Map host port 5432 to container port 5432
+    
