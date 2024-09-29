@@ -1,14 +1,11 @@
+# Your Solution
 
-FROM python:3.9-slim
+FROM python:3.12
 
-WORKDIR /app/
+WORKDIR /app
 
-COPY book_catalog/requirements.txt .
+COPY ./app/. ./
+
 RUN pip install --no-cache-dir -r requirements.txt
 
-
-COPY book_catalog/ .
-
-CMD ["uvicorn", "main:app","--host","0.0.0.0","port","8000"]
-
-Your Solution
+CMD uvicorn main:app --host 0.0.0.0 --port $PORT

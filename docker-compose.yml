@@ -1,33 +1,27 @@
-
-version: '3.8'
+# Your Solution
 
 services:
+
   book_catalog:
-    build:
-      context: ./book_catalog  # Path to the book_catalog directory
+    image: book_catalog
+    build: 
+      context: ./book_catalog
+      dockerfile: Dockerfile
+    container_name: book_catalog
     ports:
-      - "5001:8000"  # Map host port 5001 to container port 8000
+     - "3000:3000"
     environment:
-      DATABASE_URL: "postgresql://week08_idrq_user:K0TF4FhqQWPcYbb3YrdnvGoqU7p74RpW@dpg-crifrqdumphs73cjnl7g-a.oregon-postgres.render.com/week08_idrq"
-    depends_on:
-      - postgres
+      - PORT=3000
+      - DATABASE_URL=postgresql://renu:g1S5lGnzjpOe2VmezYm9333vxtultjze@dpg-crr29flds78s73cpgm7g-a.oregon-postgres.render.com/week7_1s7d
 
   inventory_management:
-    build:
-      context: ./inventory_management  # Path to the inventory_management directory
+    image: inventory_management
+    build: 
+      context: ./inventory_management
+      dockerfile: Dockerfile
+    container_name: inventory_management
     ports:
-      - "5002:8001"  # Map host port 5002 to container port 8001
+     - "5000:5000"
     environment:
-      DATABASE_URL: "postgresql://week08_idrq_user:K0TF4FhqQWPcYbb3YrdnvGoqU7p74RpW@dpg-crifrqdumphs73cjnl7g-a.oregon-postgres.render.com/week08_idrq"
-    depends_on:
-      - postgres
-
-  postgres:
-    image: render/postgres:latest
-    environment:
-      POSTGRES_DB: <database>
-      POSTGRES_USER: <username>
-      POSTGRES_PASSWORD: <password>
-    ports:
-      - "5432:5432"  # Map host port 5432 to container port 5432
-    
+      - PORT=5000
+      - DATABASE_URL=postgresql://renu:g1S5lGnzjpOe2VmezYm9333vxtultjze@dpg-crr29flds78s73cpgm7g-a.oregon-postgres.render.com/week7_1s7d

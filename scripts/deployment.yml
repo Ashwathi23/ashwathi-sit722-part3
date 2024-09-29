@@ -1,4 +1,5 @@
-# Book Catalog Deployment
+# Write Kubernetes Deployment Script
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,17 +14,16 @@ spec:
       labels:
         app: book-catalog
     spec:
-      containers:
+      containers: 
       - name: book-catalog
-        image: week09:1
-        imagePullPolicy: Never
+        image: week07.azurecr.io/book_catalog
+        imagePullPolicy: IfNotPresent
         env:
+        - name: PORT
+          value: "3000"
         - name: DATABASE_URL
-          value: "postgresql://week08_idrq_user:K0TF4FhqQWPcYbb3YrdnvGoqU7p74RpW@dpg-crifrqdumphs73cjnl7g-a.oregon-postgres.render.com/week08_idrq"
-        command: ["uvicorn"]
-        args: ["main:app", "--host", "0.0.0.0", "--port", "8000"]
+          value: "postgresql://renu:g1S5lGnzjpOe2VmezYm9333vxtultjze@dpg-crr29flds78s73cpgm7g-a.oregon-postgres.render.com/week7_1s7d"
 ---
-# Book Catalog Service
 apiVersion: v1
 kind: Service
 metadata:
@@ -31,14 +31,16 @@ metadata:
 spec:
   selector:
     app: book-catalog
-  type: NodePort
+  type: LoadBalancer
   ports:
-  - protocol: TCP
-    port: 8000
-    targetPort: 8000
-    nodePort: 30001
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+
 ---
-# Inventory Management Deployment
+
+# Write Kubernetes Deployment Script
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -53,17 +55,16 @@ spec:
       labels:
         app: inventory-management
     spec:
-      containers:
+      containers: 
       - name: inventory-management
-        image: week09:2
-        imagePullPolicy: Never
+        image: week07.azurecr.io/inventory_management
+        imagePullPolicy: IfNotPresent
         env:
+        - name: PORT
+          value: "5000"
         - name: DATABASE_URL
-          value: "postgresql://week08_idrq_user:K0TF4FhqQWPcYbb3YrdnvGoqU7p74RpW@dpg-crifrqdumphs73cjnl7g-a.oregon-postgres.render.com/week08_idrq"
-        command: ["uvicorn"]
-        args: ["main:app", "--host", "0.0.0.0", "--port", "8001"]
+          value: "postgresql://renu:g1S5lGnzjpOe2VmezYm9333vxtultjze@dpg-crr29flds78s73cpgm7g-a.oregon-postgres.render.com/week7_1s7d"
 ---
-# Inventory Management Service
 apiVersion: v1
 kind: Service
 metadata:
@@ -71,9 +72,8 @@ metadata:
 spec:
   selector:
     app: inventory-management
-  type: NodePort
+  type: LoadBalancer
   ports:
-  - protocol: TCP
-    port: 8001
-    targetPort: 8001
-    nodePort: 30002
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
